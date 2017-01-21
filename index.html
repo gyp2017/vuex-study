@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>vuex study</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.1/css/bulma.min.css" />
   </head>
   <body>
@@ -12,9 +13,9 @@
 
     <script type="text/x-template" id="twice-template">
       <div class="container">
-        <h2>Twice</h2>
-
         <div class="notification is-primary">
+
+          <div class="is-pulled-right">
           <a class="button is-primary is-inverted"
               v-bind:class="{ 'is-outlined': nation != 'all' }"
               v-on:click="sorting" data-nation="all">
@@ -35,11 +36,13 @@
               v-on:click="sorting" data-nation="tw">
             대만
           </a>
+          </div>
+          <h2 class="title">Twice</h2>
         </div>
 
         <p>일본 멤버: {{ japanNumber }}명</p>
         <div class="columns is-multiline">
-          <div class="column is-4" v-for="girl in girls">
+          <div class="column is-3" v-for="girl in girls">
             <girl v-bind:girl="girl"></girl>
           </div>
         </div>
