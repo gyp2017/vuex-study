@@ -3,20 +3,194 @@
   <head>
     <meta charset="utf-8">
     <title>vuex study</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.1/css/bulma.min.css" />
   </head>
   <body>
-    <div class="app">
-      <p>{{ greeting }}</p>
+    <div id="app">
+      <twice></twice>
     </div>
+
+    <script type="text/x-template" id="twice-template">
+      <div class="container">
+        <h2>Twice</h2>
+
+        <div class="notification is-primary">
+          <a class="button is-primary is-inverted"
+              v-bind:class="{ 'is-outlined': nation != 'all' }"
+              v-on:click="sorting" data-nation="all">
+            전체
+          </a>
+          <a class="button is-info is-inverted"
+              v-bind:class="{ 'is-outlined': nation != 'ko' }"
+              v-on:click="sorting" data-nation="ko">
+            한국
+          </a>
+          <a class="button is-danger is-inverted"
+              v-bind:class="{ 'is-outlined': nation != 'jp' }"
+              v-on:click="sorting" data-nation="jp">
+            일본
+          </a>
+          <a class="button is-success is-inverted"
+              v-bind:class="{ 'is-outlined': nation != 'tw' }"
+              v-on:click="sorting" data-nation="tw">
+            대만
+          </a>
+        </div>
+
+        <p>일본 멤버: {{ japanNumber }}명</p>
+        <div class="columns is-multiline">
+          <div class="column is-4" v-for="girl in girls">
+            <girl v-bind:girl="girl"></girl>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/x-template" id="girl-template">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image">
+            <img v-bind:src="girl.img" alt="Image">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="content">
+            {{ girl.name }}
+            <br>
+            <small v-if="girl.height">{{ girl.height }}cm</small>
+            <small v-if="girl.weight">, {{ girl.weight }}kg</small>
+          </div>
+        </div>
+      </div>
+    </script>
+
+
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/vuex"></script>
-    <script >
-      new Vue({
-        el: '.app',
-        data: {
-          greeting: 'Hi Hello~!'
+    <script type="">
+
+      const store = new Vuex.Store({
+        state: {
+          girls: [
+            {
+              id: 1,
+              name: '나연',
+              nation: 'ko',
+              height: 163,
+              weight: 48,
+              img: 'https://image-proxy.namuwikiusercontent.com/r/http%3A%2F%2Faz879543.vo.msecnd.net%2Ftwice%2F28-3478.jpg'
+            },
+            {
+              id: 2,
+              name: '정연',
+              nation: 'ko',
+              height: 167,
+              weight: 49.1,
+              img: 'https://image-proxy.namuwikiusercontent.com/r/http%3A%2F%2Faz879543.vo.msecnd.net%2Ftwice%2F31-3908.jpg'
+            },
+            {
+              id: 3,
+              name: '모모',
+              nation: 'jp',
+              height: 162,
+              img: 'https://image-proxy.namuwikiusercontent.com/r/http%3A%2F%2Faz879543.vo.msecnd.net%2Ftwice%2F29-3558.jpg'
+            },
+            {
+              id: 4,
+              name: '사나',
+              nation: 'jp',
+              height: 163,
+              img: 'https://image-proxy.namuwikiusercontent.com/r/http%3A%2F%2Faz879543.vo.msecnd.net%2Ftwice%2F36-4418.jpg'
+            },
+            {
+              id: 5,
+              name: '지효',
+              nation: 'ko',
+              height: 160,
+              weight: 50,
+              img: 'https://image-proxy.namuwikiusercontent.com/r/http%3A%2F%2Faz879543.vo.msecnd.net%2Ftwice%2F33-4118.jpg'
+            },
+            {
+              id: 6,
+              name: '미나',
+              nation: 'jp',
+              height: 165,
+              weight: 46,
+              img: 'https://image-proxy.namuwikiusercontent.com/r/http%3A%2F%2Faz879543.vo.msecnd.net%2Ftwice%2F30-3698.jpg'
+            },
+            {
+              id: 7,
+              name: '다현',
+              nation: 'ko',
+              height: 160,
+              weight: 46,
+              img: 'https://image-proxy.namuwikiusercontent.com/r/http%3A%2F%2Faz879543.vo.msecnd.net%2Ftwice%2F35-4309.jpg'
+            },
+            {
+              id: 8,
+              name: '채영',
+              nation: 'ko',
+              height: 159,
+              weight: 46,
+              img: 'https://image-proxy.namuwikiusercontent.com/r/http%3A%2F%2Faz879543.vo.msecnd.net%2Ftwice%2F32-4003.jpg'
+            },
+            {
+              id: 9,
+              name: '쯔위',
+              nation: 'tw',
+              height: 172,
+              weight: 52,
+              img: 'https://image-proxy.namuwikiusercontent.com/r/http%3A%2F%2Faz879543.vo.msecnd.net%2Ftwice%2F34-4219.jpg'
+            }
+          ]
+        },
+        getters: {
+          japanGirls: state => {
+            return state.girls.filter(girl => girl.nation == 'jp')
+          }
         }
       })
+
+      const Girl = {
+        template: '#girl-template',
+        props: ['girl']
+      }
+
+      const Twice = {
+        template: '#twice-template',
+        components: { Girl },
+        data () {
+          return {
+            nation: 'all'
+          }
+        },
+        computed: {
+          japanNumber () {
+            return this.$store.getters.japanGirls.length
+          },
+          girls () {
+            let nation = this.nation
+            if (nation == 'all') {
+              return this.$store.state.girls
+            } else {
+              return this.$store.state.girls.filter(girl => girl.nation == nation)
+            }
+          }
+        },
+        methods: {
+          sorting (e) {
+            let nation = e.target.dataset.nation
+            this.nation = nation
+          }
+        }
+      }
+
+      const ap = new Vue({
+        el: '#app',
+        store,
+        components: { Twice },
+      })
+
     </script>
   </body>
 </html>

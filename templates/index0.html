@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>vuex study</title>
+  </head>
+  <body>
+    <div class="app">
+      <p>{{ greeting }} {{ count }}</p>
+      <button type="button" v-on:click="increment">Add</button>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vuex"></script>
+    <script >
+      new Vue({
+        el: '.app',
+        data: {
+          greeting: 'Hi Hello~!',
+          count: 0
+        },
+        methods: {
+          increment () {
+            this.count++;
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
