@@ -1,0 +1,12 @@
+{
+  "name": "vuex-study",
+  "version": "1.0.0",
+  "description": "study vuex",
+  "main": "index.js",
+  "scripts": {
+    "start": "python -m SimpleHTTPServer 8000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
