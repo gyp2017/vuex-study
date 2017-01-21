@@ -40,7 +40,6 @@
           <h2 class="title">Twice</h2>
         </div>
 
-        <p>일본 멤버: {{ japanNumber }}명</p>
         <div class="columns is-multiline">
           <div class="column is-3" v-for="girl in girls">
             <girl v-bind:girl="girl"></girl>
@@ -168,9 +167,6 @@
           }
         },
         computed: {
-          japanNumber () {
-            return this.$store.getters.japanGirls.length
-          },
           girls () {
             let nation = this.nation
             if (nation == 'all') {
