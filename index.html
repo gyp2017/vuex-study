@@ -24,20 +24,20 @@
           <a class="button is-info is-inverted"
               v-bind:class="{ 'is-outlined': nation != 'ko' }"
               v-on:click="sorting" data-nation="ko">
-            한국
+            한국 ( {{ numbers.ko }} )
           </a>
           <a class="button is-danger is-inverted"
               v-bind:class="{ 'is-outlined': nation != 'jp' }"
               v-on:click="sorting" data-nation="jp">
-            일본
+            일본 ( {{ numbers.jp }} )
           </a>
           <a class="button is-success is-inverted"
               v-bind:class="{ 'is-outlined': nation != 'tw' }"
               v-on:click="sorting" data-nation="tw">
-            대만
+            대만 ( {{ numbers.tw }} )
           </a>
           </div>
-          <h2 class="title">Twice</h2>
+          <h2 class="title">{{ name }} {{ newYear }}</h2>
         </div>
 
         <div class="columns is-multiline is-mobile">
@@ -149,6 +149,18 @@
         getters: {
           japanGirls: state => {
             return state.girls.filter(girl => girl.nation == 'jp')
+          },
+          numbers: state => {
+            let ko = 5,
+                jp = 3,
+                tw = 0;
+            // state.girls.forEach(girl => {
+            //   if (girl.nation == 'ko') ko++
+            //   if (girl.nation == 'jp') jp++
+            //   if (girl.nation == 'tw') tw++
+            // })
+
+            return { ko, jp, tw }
           }
         }
       })
@@ -163,10 +175,12 @@
         components: { Girl },
         data () {
           return {
-            nation: 'all'
+            nation: 'all',
+            name: '트와이스',
+            year: 2017
           }
         },
-        computed: {
+        computed: Vuex.mapState({
           girls () {
             let nation = this.nation
             if (nation == 'all') {
@@ -174,8 +188,15 @@
             } else {
               return this.$store.state.girls.filter(girl => girl.nation == nation)
             }
+          },
+          numbers () {
+            return this.$store.getters.numbers
+          },
+          newYear (state) {
+            console.log(this);
+            console.log(state);
           }
-        },
+        }),
         methods: {
           sorting (e) {
             let nation = e.target.dataset.nation
