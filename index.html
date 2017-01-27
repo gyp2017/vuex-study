@@ -41,7 +41,8 @@
         </div>
 
         <div class="columns is-multiline is-mobile">
-          <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop" v-for="girl in girls">
+          <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop"
+                v-for="girl in girls" v-bind:key="girl.id">
             <girl v-bind:girl="girl"></girl>
           </div>
         </div>
@@ -153,12 +154,7 @@
           numbers: state => {
             let ko = 5,
                 jp = 3,
-                tw = 0;
-            // state.girls.forEach(girl => {
-            //   if (girl.nation == 'ko') ko++
-            //   if (girl.nation == 'jp') jp++
-            //   if (girl.nation == 'tw') tw++
-            // })
+                tw = 1;
 
             return { ko, jp, tw }
           }
@@ -167,7 +163,12 @@
 
       const Girl = {
         template: '#girl-template',
-        props: ['girl']
+        props: {
+          girl: {
+            type: Object,
+            required: true
+          }
+        }
       }
 
       const Twice = {
@@ -193,8 +194,7 @@
             return this.$store.getters.numbers
           },
           newYear (state) {
-            console.log(this);
-            console.log(state);
+
           }
         }),
         methods: {
